@@ -1,4 +1,5 @@
 # My Ubuntu Setup
+
 ```sh
 # Installing git
 sudo add-apt-repository ppa:git-core/ppa
@@ -28,6 +29,10 @@ sudo gem install colorls
 
 # Installing nvm (node version manager)
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+# Installing NodeJS (LTS)
+nvm install --lts
+# Enable yarn
+corepack enable
 
 # Setup dotfiles
 git clone https://github.com/jotahdavid/dotfiles.git ~/.dotfiles
