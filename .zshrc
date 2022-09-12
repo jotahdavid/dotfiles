@@ -128,7 +128,7 @@ function c() {
   if [[ $1 == *.c ]]; then
     1="${1/.c}"
   fi
-  gcc $1.c -o bin/$1 && bin/$1;
+  mkdir ./bin -p && gcc $1.c -o bin/$1 && bin/$1;
 }
 
 # Variables
@@ -142,8 +142,6 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init - zsh)"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
-xinput set-button-map 8 1 2 3 4 5 6 7 0 9 10 11 12 13 14 15 16 17 18 19 20
 
 if [[ $EUID == 0 ]]; then
   export PATH="$HOME/bin:$PATH"
