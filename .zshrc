@@ -77,6 +77,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(
   git
   zsh-syntax-highlighting
+  zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -118,7 +119,13 @@ alias ll='colorls -lA --group-directories-first'
 # Alias to change CPU scaling governor
 alias conservativescaling='echo "conservative" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
 
-alias pingoogle='ping 8.8.8.8'
+alias pingoogle='ping -O 8.8.8.8'
+
+alias ports='ss -lptn'
+
+function pstorm() {
+  phpstorm "$@" 1>/dev/null 2>/dev/null &
+}
 
 # Use ls colors at tab completion
 # zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
@@ -129,6 +136,18 @@ function c() {
     1="${1/.c}"
   fi
   mkdir ./bin -p && gcc $1.c -o bin/$1 && bin/$1;
+}
+function cppc() {
+  if [[ $1 == *.cpp ]]; then
+    1="${1/.cpp}"
+  fi
+  mkdir ./bin -p && g++ $1.cpp -o bin/$1 && bin/$1;
+}
+
+# Command to check process RAM consume
+function mem() {
+  maxLineLen=${2:-110}
+  ps -eo rss,vsz,pid,euser,args:100 --sort %mem | grep -v grep | grep -i $@ | cut -c -$maxLineLen | awk '{printf $1/1024 "MB"; $1=""; print }'
 }
 
 # Variables
@@ -146,3 +165,13 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 if [[ $EUID == 0 ]]; then
   export PATH="$HOME/bin:$PATH"
 fi
+
+JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+export JAVA_HOME
+export PATH="$PATH:$JAVA_HOME"
+
+alias pa="php artisan"
+
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
