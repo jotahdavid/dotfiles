@@ -1,3 +1,5 @@
+ORIGINAL_FILE_PATH="$HOME/.dotfiles"
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -78,6 +80,7 @@ plugins=(
   git
   zsh-syntax-highlighting
   zsh-autosuggestions
+  laravel
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -113,42 +116,8 @@ source $ZSH/oh-my-zsh.sh
 # alias la='ls -A'
 # alias l='ls -CF'
 
-# Using colorls instead ls
-alias ls='colorls -A --group-directories-first'
-alias ll='colorls -lA --group-directories-first'
-# Alias to change CPU scaling governor
-alias conservativescaling='echo "conservative" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor'
-
-alias pingoogle='ping -O 8.8.8.8'
-
-alias ports='ss -lptn'
-
-function pstorm() {
-  phpstorm "$@" 1>/dev/null 2>/dev/null &
-}
-
 # Use ls colors at tab completion
 # zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-
-# Alias to gcc compiler
-function c() {
-  if [[ $1 == *.c ]]; then
-    1="${1/.c}"
-  fi
-  mkdir ./bin -p && gcc $1.c -o bin/$1 && bin/$1;
-}
-function cppc() {
-  if [[ $1 == *.cpp ]]; then
-    1="${1/.cpp}"
-  fi
-  mkdir ./bin -p && g++ $1.cpp -o bin/$1 && bin/$1;
-}
-
-# Command to check process RAM consume
-function mem() {
-  maxLineLen=${2:-110}
-  ps -eo rss,vsz,pid,euser,args:100 --sort %mem | grep -v grep | grep -i $@ | cut -c -$maxLineLen | awk '{printf $1/1024 "MB"; $1=""; print }'
-}
 
 # Variables
 export NVM_DIR="$HOME/.nvm"
@@ -157,8 +126,8 @@ export NVM_DIR="$HOME/.nvm"
 
 export EDITOR='nvim'
 
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init - zsh)"
+# export PATH="$HOME/.rbenv/bin:$PATH"
+# eval "$(rbenv init - zsh)"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
@@ -166,12 +135,16 @@ if [[ $EUID == 0 ]]; then
   export PATH="$HOME/bin:$PATH"
 fi
 
-JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+JAVA_HOME="/usr/lib/jvm/java-1.17.0-openjdk-amd64"
 export JAVA_HOME
 export PATH="$PATH:$JAVA_HOME"
-
-alias pa="php artisan"
 
 export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+
+export EDGE_PATH="/usr/bin/brave-browser"
+
+source "$ORIGINAL_FILE_PATH/aliases.zsh"
